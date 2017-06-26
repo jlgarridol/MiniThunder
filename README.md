@@ -2,6 +2,6 @@ MiniThunder
 =
 Minimize project to production
 -
-### Requeriment:
-* slimit
-* rcssmin
+### Require
+* [jsmin](https://github.com/tikitu/jsmin/) - MIT
+* [rcssmin](http://opensource.perlig.de/rcssmin) - APACHE 2.0

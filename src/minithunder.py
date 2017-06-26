@@ -5,6 +5,7 @@ import json
 
 from sys import argv as _
 from shutil import copyfile
+from jsmin import jsmin
 from rcssmin import cssmin
 
 VERSION="0.1.0.0"
@@ -41,11 +42,11 @@ def minimizeFile(source, production, format):
     input = open(source, "r")
     output = open(production, "w")
     if format == "js":
-        output.write(jsmin(input.read(), mangle=True, mangle_toplevel=True))
-    elif format == "css":
-        output.write(cssmin(input.read(), keep_bang_comments=True))
-
-
+        output.write(jsmin(input.read()))
+    if format == "css":
+        output.write(cssmin(input.read(), keep_bang_comments=False))
+    input.close()
+    output.close()
 
 def main():
     if len(_) == 1 or _[1] == "-h":
