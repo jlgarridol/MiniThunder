@@ -45,8 +45,37 @@ def minimizeFile(source, production, format):
         output.write(jsmin(input.read()))
     if format == "css":
         output.write(cssmin(input.read(), keep_bang_comments=False))
+    if format == "html" or format == "htm" or format == "twig":
+        output.write(htmlmin(input.read()))
     input.close()
     output.close()
+
+def htmlmin(source):
+    ret=""
+    codePre=False #Is inside a code or pre label
+    lines=source.split("\n")
+    for i in lines:
+        if "<!DOCTYPE" in i:
+            ret=i+"\n"
+        else:
+            if "</pre>" in i or "</code>" in i:
+                codePre=False
+            elif "<pre>" in i or "<code>" in i:
+                codePre=True
+            
+            if codePre:
+                ret+="\n"+i
+            else:
+                index=0
+                for j in i:
+                    if j != " " and j != "\t":
+                        break
+                    else:
+                        index+=1
+                i=i[index:]
+                ret+=i
+    return ret
+
 
 def main():
     if len(_) == 1 or _[1] == "-h":
